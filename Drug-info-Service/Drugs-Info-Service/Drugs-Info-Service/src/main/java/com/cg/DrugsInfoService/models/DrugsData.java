@@ -52,6 +52,7 @@ public class DrugsData {
     }
 
     public void setDrugName(String drugName) {
+
         this.drugName = drugName;
     }
 
@@ -68,14 +69,17 @@ public class DrugsData {
     }
 
     public void setDrugQuantity(int drugQuantity) {
+
         this.drugQuantity = drugQuantity;
     }
 
     public LocalDate getExpiryDate() {
+
         return expiryDate;
     }
 
     public void setExpiryDate(LocalDate expiryDate) {
+
         this.expiryDate = expiryDate;
     }
 }
