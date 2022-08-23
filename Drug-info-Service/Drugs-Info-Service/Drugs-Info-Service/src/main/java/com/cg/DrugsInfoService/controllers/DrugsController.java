@@ -3,6 +3,7 @@ package com.cg.DrugsInfoService.controllers;
 import com.cg.DrugsInfoService.exception.ResourceNotFoundException;
 import com.cg.DrugsInfoService.models.DrugsData;
 import com.cg.DrugsInfoService.services.DrugService;
+import com.cg.DrugsInfoService.services.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/drugs")
 public class DrugsController {
+    @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
+
 
     @Autowired
     DrugService drugService;
@@ -37,6 +41,7 @@ public class DrugsController {
 
     @PostMapping("/save")
     public ResponseEntity<DrugsData> saveDrugs(@RequestBody DrugsData drugsData) {
+        drugsData.setDrugId(sequenceGeneratorService.getSequenceNumber(DrugsData.SEQUENCE_NAME));
         DrugsData savedDrugsData = drugService.saveDrugsData(drugsData);
         return ResponseEntity.ok(savedDrugsData);
     }
