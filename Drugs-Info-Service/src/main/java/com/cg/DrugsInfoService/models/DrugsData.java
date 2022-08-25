@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
 //import javax.persistence.*;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +18,6 @@ public class DrugsData {
     public static  final String SEQUENCE_NAME="user_sequence";
 
     @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
     private int drugId;
 
 
