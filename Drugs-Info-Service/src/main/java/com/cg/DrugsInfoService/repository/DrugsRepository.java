@@ -8,11 +8,12 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 //public interface DrugsRepository extends JpaRepository<DrugsData,Integer> {
 public interface DrugsRepository extends MongoRepository<DrugsData, Integer> {
-
+    Optional<DrugsData> getDrugsDataByDrugName(String drugName);
 //    @Query("{name:'?0'}")
 //   DrugsData findItemByName(String name);
 //

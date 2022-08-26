@@ -45,6 +45,14 @@ public class DrugsController {
         DrugsData savedDrugsData = drugService.saveDrugsData(drugsData);
         return ResponseEntity.ok(savedDrugsData);
     }
+    @GetMapping("/drugsname/{drugName}")
+    public ResponseEntity<DrugsData> getDrugsDataByDrugName(@PathVariable("drugName") String drugName) throws ResourceNotFoundException {
+        Optional<DrugsData> drugsDataOptional = drugService.getDrugsDataByDrugName(drugName);
+        if (drugsDataOptional.isEmpty()) {
+            throw new ResourceNotFoundException("No medicine found with name: " + drugName);
+        }
+        return ResponseEntity.ok(drugsDataOptional.get());
+    }
 
     //update function
     @PutMapping("/update/{id}")

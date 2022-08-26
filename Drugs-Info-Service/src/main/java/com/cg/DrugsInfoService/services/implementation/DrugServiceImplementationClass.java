@@ -30,7 +30,10 @@ public class DrugServiceImplementationClass implements DrugService {
     public Optional<DrugsData> findDrugsById(int drugId) {
         return drugsRepository.findById(drugId);
     }
-
+    @Override
+    public Optional<DrugsData> getDrugsDataByDrugName(String drugName) {
+        return drugsRepository.getDrugsDataByDrugName(drugName);
+    }
     @Override
     public DrugsData
     updateDrugsData(DrugsData drugsData,
