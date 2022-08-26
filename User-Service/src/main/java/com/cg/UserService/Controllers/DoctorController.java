@@ -60,7 +60,7 @@ public class DoctorController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteDrugsData(@PathVariable("id") int doctorId) throws ResourceNotFoundException
+    public void deleteDoctorsData(@PathVariable("id") int doctorId) throws ResourceNotFoundException
     {
         Optional<DoctorsData> doctorsData = doctorDataService.getDoctorsById(doctorId);
         if(doctorsData.isEmpty()) {
