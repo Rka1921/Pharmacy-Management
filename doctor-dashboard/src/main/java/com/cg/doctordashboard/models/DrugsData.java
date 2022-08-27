@@ -21,7 +21,7 @@ public class DrugsData {
 
 //    @Id
 
-
+// private  int drugId;
 
     private String drugName;
 
