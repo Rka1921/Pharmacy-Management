@@ -25,7 +25,7 @@ public class SecuirityController {
 //        return "Hello World";
 //    }
   @RequestMapping({ "/hello" })
-public String firstPage() {
+   public String firstPage() {
     return "Hello World";
 }
     @RequestMapping(value="/authenticate", method = RequestMethod.POST)
