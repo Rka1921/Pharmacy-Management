@@ -21,67 +21,56 @@ public class DoctorController {
     @Autowired
     DoctorDataService doctorDataService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<DoctorsData>> getAllDoctors() throws ResourceNotFoundException {
-        List<DoctorsData> list = doctorDataService.getAllDoctors();
-        if (list.isEmpty()) {
-            throw new ResourceNotFoundException("There are no Doctors present in the database!");
-        }
-        return ResponseEntity.ok(list);
-    }
+//    @GetMapping("/")
+//    public ResponseEntity<List<DoctorsData>> getAllDoctors() throws ResourceNotFoundException {
+//        List<DoctorsData> list = doctorDataService.getAllDoctors();
+//        if (list.isEmpty()) {
+//            throw new ResourceNotFoundException("There are no Doctors present in the database!");
+//        }
+//        return ResponseEntity.ok(list);
+//    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DoctorsData> getDoctorsById(@PathVariable("id")   int doctorId) throws ResourceNotFoundException {
-        Optional<DoctorsData> doctorsData = doctorDataService.getDoctorsById(doctorId);
-        if (doctorsData.isEmpty()) {
-            throw new ResourceNotFoundException("No Doctors found with id: " + doctorId);
-        }
-        return ResponseEntity.ok(doctorsData.get());
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<DoctorsData> getDoctorsById(@PathVariable("id")   int doctorId) throws ResourceNotFoundException {
+//        Optional<DoctorsData> doctorsData = doctorDataService.getDoctorsById(doctorId);
+//        if (doctorsData.isEmpty()) {
+//            throw new ResourceNotFoundException("No Doctors found with id: " + doctorId);
+//        }
+//        return ResponseEntity.ok(doctorsData.get());
+//    }
 
     @PostMapping("/save")
-    public ResponseEntity<DoctorsData> saveDoctorsData(@RequestBody DoctorsData doctorsData)  {
+    public ResponseEntity<DoctorsData> saveDoctorsData(@RequestBody DoctorsData doctorsData) {
         doctorsData.setDoctorId((sequenceGeneratorService.getSequenceNumber(DoctorsData.SEQUENCE_NAME)));
         DoctorsData savedDoctorsData = doctorDataService.saveDoctorsData(doctorsData);
         return ResponseEntity.ok(savedDoctorsData);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<DoctorsData> updateDoctorsData(@RequestBody DoctorsData doctorsData ,
-                                                            @PathVariable("id") int doctorId){
-        DoctorsData updatedDoctorsData = doctorDataService.updateDoctorsData(doctorsData,doctorId);
-        return  ResponseEntity.ok(updatedDoctorsData);
-    }
+    //    @PutMapping("/update/{id}")
+//    public ResponseEntity<DoctorsData> updateDoctorsData(@RequestBody DoctorsData doctorsData ,
+//                                                            @PathVariable("id") int doctorId){
+//        DoctorsData updatedDoctorsData = doctorDataService.updateDoctorsData(doctorsData,doctorId);
+//        return  ResponseEntity.ok(updatedDoctorsData);
+//    }
     @PutMapping("/update/username/{email}")
-    public ResponseEntity<DoctorsData> updateDoctorsData(@RequestBody DoctorsData doctorsData ,
-                                                         @PathVariable("email") String email){
-        DoctorsData updatedDoctorsData = doctorDataService.updateDoctorsData(doctorsData,email);
-        return  ResponseEntity.ok(updatedDoctorsData);
+    public ResponseEntity<DoctorsData> updateDoctorsData(@RequestBody DoctorsData doctorsData,
+                                                         @PathVariable("email") String email) {
+        DoctorsData updatedDoctorsData = doctorDataService.updateDoctorsData(doctorsData, email);
+        return ResponseEntity.ok(updatedDoctorsData);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteDoctorsData(@PathVariable("id") int doctorId) throws ResourceNotFoundException
-    {
-        Optional<DoctorsData> doctorsData = doctorDataService.getDoctorsById(doctorId);
-        if(doctorsData.isEmpty()) {
-            throw new ResourceNotFoundException("No Doctor found with id " + doctorId);
+
+    @GetMapping("/username/{email}")
+    public ResponseEntity<DoctorsData> getDoctorsDataByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
+
+        Optional<DoctorsData> doctorsData = doctorDataService.getDoctorsDataByEmail(email);
+        if (doctorsData.isEmpty()) {
+            throw new ResourceNotFoundException("No Doctors found with email: " + email);
         }
-        doctorDataService.deleteDoctorsData(doctorId);
-    }
+        return ResponseEntity.ok(doctorsData.get());
 
-//   @GetMapping("/username/{email}")
-//    public ResponseEntity<DoctorsData> getDoctorsDataByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
-//
-//        Optional<DoctorsData> doctorsData = doctorDataService.getDoctorsDataByEmail(email);
-//        if (doctorsData.isEmpty()) {
-//            throw new ResourceNotFoundException("No Doctors found with email: " + email);
-//        }
-//        return ResponseEntity.ok(doctorsData.get());
-//
 //    }
 
 
-
-
-
+    }
 }
