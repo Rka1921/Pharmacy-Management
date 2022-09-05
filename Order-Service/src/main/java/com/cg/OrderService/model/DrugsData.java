@@ -1,12 +1,12 @@
-package com.cg.doctordashboard.models;
+package com.cg.OrderService.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-//import org.springframework.data.annotation.Id;
-//import org.springframework.data.annotation.Transient;
-//import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -20,8 +20,8 @@ public class DrugsData {
 //    public static  final String SEQUENCE_NAME="user_sequence";
 
 //    @Id
+//    private int drugId;
 
- private  int drugId;
 
     private String drugName;
 
@@ -29,7 +29,7 @@ public class DrugsData {
     private double drugPrice;
 
 
-    private int drugQuantity;
+//    private int drugQuantity;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @DateTimeFormat(pattern = "dd/MM/yyyy")

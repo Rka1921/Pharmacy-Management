@@ -1,5 +1,6 @@
 package com.cg.UserService.secuirity.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.cg.UserService.Models.DoctorsData;
 import com.cg.UserService.Repository.DoctorRepository;
 
@@ -40,7 +41,9 @@ public class MyUserDetailsService implements UserDetailsService {
         if (email.equals("admin"))
         {
             roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            System.out.println("admin authenticated successfully");
             return new User("admin", "admin", roles);
+
         }
         //checking for User Role
         else

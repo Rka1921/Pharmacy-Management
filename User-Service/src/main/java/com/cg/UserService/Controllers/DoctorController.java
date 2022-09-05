@@ -3,11 +3,13 @@ package com.cg.UserService.Controllers;
 
 import com.cg.UserService.Exception.ResourceNotFoundException;
 import com.cg.UserService.Models.DoctorsData;
+import com.cg.UserService.Models.DrugsData;
 import com.cg.UserService.Service.DoctorDataService;
 import com.cg.UserService.Service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/doctors")
 public class DoctorController {
-
+@Autowired
+    RestTemplate restTemplate;
     @Autowired
     SequenceGeneratorService sequenceGeneratorService;
     @Autowired
@@ -39,12 +42,6 @@ public class DoctorController {
 //        return ResponseEntity.ok(doctorsData.get());
 //    }
 
-    @PostMapping("/save")
-    public ResponseEntity<DoctorsData> saveDoctorsData(@RequestBody DoctorsData doctorsData) {
-        doctorsData.setDoctorId((sequenceGeneratorService.getSequenceNumber(DoctorsData.SEQUENCE_NAME)));
-        DoctorsData savedDoctorsData = doctorDataService.saveDoctorsData(doctorsData);
-        return ResponseEntity.ok(savedDoctorsData);
-    }
 
     //    @PutMapping("/update/{id}")
 //    public ResponseEntity<DoctorsData> updateDoctorsData(@RequestBody DoctorsData doctorsData ,
@@ -59,7 +56,6 @@ public class DoctorController {
         return ResponseEntity.ok(updatedDoctorsData);
     }
 
-
     @GetMapping("/username/{email}")
     public ResponseEntity<DoctorsData> getDoctorsDataByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
 
@@ -69,8 +65,20 @@ public class DoctorController {
         }
         return ResponseEntity.ok(doctorsData.get());
 
-//    }
-
-
     }
+//************************* DRUGS DATA *************************************
+    @RequestMapping("/drugs/all")
+    public DrugsData[] getAllDrugsData(){
+        ResponseEntity<DrugsData[]> response =
+                restTemplate.getForEntity("http://Drugs-Info-Service/drugs/", DrugsData[].class);
+        DrugsData[] drugsData = response.getBody();
+        return (drugsData);
+    }
+    @GetMapping("/drugs/{drugsname}")
+    public DrugsData getDrugsData (@PathVariable("drugsname") String drugsname){
+
+        return restTemplate.getForObject("http://Drugs-Info-Service/drugs/drugsname/" + drugsname, DrugsData.class);
+    }
+
+
 }

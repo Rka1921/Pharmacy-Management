@@ -10,9 +10,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 
 public class DrugsInfoServiceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(DrugsInfoServiceApplication.class, args);
 	}
-
 }
