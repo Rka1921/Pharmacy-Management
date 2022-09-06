@@ -1,6 +1,11 @@
-package com.cg.OrderService.exception;
+package com.cg.OrderService.Exception;
 
-public class NoOrderPresentException extends Throwable {
+import lombok.AllArgsConstructor;
+
+//@AllArgsConstructor
+public class NoOrderPresentException extends Exception {
+
     public NoOrderPresentException(String s) {
+
     }
 }

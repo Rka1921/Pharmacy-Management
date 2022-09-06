@@ -1,4 +1,4 @@
-package com.cg.OrderService.model;
+package com.cg.OrderService.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "orders")
+@Document(collection = "Orders")
 public class Order {
     @Transient
-    public static  final String SEQUENCE_NAME="order_sequence";
+    public static final String SEQUENCE_NAME = "order_sequence";
     @Id
     private int id;
     private double cost;
@@ -25,7 +25,6 @@ public class Order {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     private int quantity;
-//    private DoctorsData doctorsData;
-   private DrugsData drugsData;
-
+    private DoctorsData doctorsData;
+    private String drugname;
 }

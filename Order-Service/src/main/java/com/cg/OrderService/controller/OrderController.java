@@ -1,13 +1,12 @@
-package com.cg.OrderService.controller;
+package com.cg.OrderService.Controller;
 
-import com.cg.OrderService.exception.NoOrderPresentException;
-import com.cg.OrderService.model.DoctorsData;
-import com.cg.OrderService.model.DrugsData;
-import com.cg.OrderService.model.Order;
-import com.cg.OrderService.service.OrderService;
-import com.cg.OrderService.service.SequenceGeneratorService;
+import com.cg.OrderService.Exception.NoOrderPresentException;
+import com.cg.OrderService.Exception.ResourceNotFoundException;
+import com.cg.OrderService.Model.DrugsData;
+import com.cg.OrderService.Model.Order;
+import com.cg.OrderService.Service.OrderService;
+import com.cg.OrderService.Service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -16,12 +15,19 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
+
     @Autowired
     OrderService orderService;
     @Autowired
     RestTemplate restTemplate;
+
+    Order order = new Order();
+
+    DrugsData drugsData = new DrugsData();
+
+//    DoctorsData doctorsData=new DoctorsData();
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 
@@ -44,11 +50,23 @@ public class OrderController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Order> saveOrder(@RequestBody Order order) {
-        order.setId(sequenceGeneratorService.getSequenceNumber(Order.SEQUENCE_NAME));
-//        if()
-        Order savedOrder = orderService.saveOrder(order);
-        return ResponseEntity.ok(savedOrder);
+    public ResponseEntity<String> saveOrder(@RequestBody Order order) throws ResourceNotFoundException{
+
+        String drugname = order.getDrugname();
+        if(drugname == null){
+            throw new ResourceNotFoundException("No Drug Found with name "+drugname);
+        }
+        else {
+            DrugsData drugsData = restTemplate.getForObject("http://Drugs-Info-Service/drugs/drugsname/" +
+                    drugname, DrugsData.class);
+            double cost = drugsData.getDrugPrice() * order.getQuantity();
+            order.setCost(cost);
+            order.setId(sequenceGeneratorService.getSequenceNumber(Order.SEQUENCE_NAME));
+            String x = "Your order with order Id " + order.getId() + " with value " + cost + " is placed";
+            Order savedOrder = orderService.saveOrder(order);
+            return ResponseEntity.ok(x);
+        }
+
     }
 
     @DeleteMapping("/delete/{id}")
@@ -60,42 +78,5 @@ public class OrderController {
         orderService.deleteOrderById(id);
     }
 
-    @PostMapping("/{orderId}/assign-medicine/{drugsname}")
-    private ResponseEntity<Order> assignMedicineToOrder(@PathVariable("orderId") int orderId, @PathVariable("drugsname") String drugsname ) throws NoOrderPresentException {
-        Optional<Order> orderOptional = orderService.findOrderById(orderId);
-        if (orderOptional.isEmpty()) {
-            throw new NoOrderPresentException("No order found with id: " + orderId);
-        }
-        ResponseEntity<DrugsData> drugs=restTemplate.getForEntity("http://Drugs-Info-Service/drugs/drugsname/" + drugsname, DrugsData.class);
-        if (!drugs.hasBody()) {
-            throw new NoOrderPresentException("No medicine found with id: " + drugsname);
-        }
-        Order order=orderOptional.get();
-
-        DrugsData drugsData=drugs.getBody();
-        order.setDrugsData(drugsData);
-        return new ResponseEntity<Order>(orderService.saveOrder(order), HttpStatus.OK);
-//       }
-
-    }
-    @PostMapping("/{orderId}/assign-doctor/{doctoremail}")
-    private ResponseEntity<Order> assignDoctorToOrder(@PathVariable("orderId") int orderId, @PathVariable("doctoremail")
-    String doctoremail) throws NoOrderPresentException {
-        Optional<Order> orderOptional = orderService.findOrderById(orderId);
-        if (orderOptional.isEmpty()) {
-            throw new NoOrderPresentException("No order found with id: " + orderId);
-        }
-        ResponseEntity<DoctorsData> doctors=restTemplate.getForEntity("http://User-Service/doctors/username/" + doctoremail, DoctorsData.class);
-        if (!doctors.hasBody()) {
-            throw new NoOrderPresentException("No medicine found with id: " + doctoremail);
-        }
-        Order order=orderOptional.get();
-
-       DoctorsData doctorsData=doctors.getBody();
-        order.setDoctorsData(doctorsData);
-        return new ResponseEntity<Order>(orderService.saveOrder(order), HttpStatus.OK);
-//       }
-
-    }
 
 }

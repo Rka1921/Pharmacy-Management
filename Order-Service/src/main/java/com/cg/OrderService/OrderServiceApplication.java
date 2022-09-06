@@ -9,19 +9,18 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableEurekaClient
 @EnableMongoRepositories
+@EnableEurekaClient
+
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OrderServiceApplication.class, args);
-
 	}
-	@Bean
-	@LoadBalanced
-	public RestTemplate getRestTemplate(){
+
+	@Bean @LoadBalanced
+	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
-
-
 	}
+
 }

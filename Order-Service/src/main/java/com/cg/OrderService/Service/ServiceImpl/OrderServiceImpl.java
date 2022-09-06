@@ -1,17 +1,23 @@
-package com.cg.OrderService.service.implementation;
+package com.cg.OrderService.Service.ServiceImpl;
 
-import com.cg.OrderService.model.Order;
-import com.cg.OrderService.repository.OrderRepository;
-import com.cg.OrderService.service.OrderService;
+import com.cg.OrderService.Model.Order;
+import com.cg.OrderService.Repository.OrderRepository;
+import com.cg.OrderService.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
-public class OrderServiceImplementation implements OrderService {
+public class OrderServiceImpl implements OrderService {
+
+
     @Autowired
     OrderRepository orderRepository;
+
+
+
     @Override
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -32,10 +38,10 @@ public class OrderServiceImplementation implements OrderService {
         orderRepository.deleteById(id);
     }
 
-    @Override
-    public String placedOrder(Order order) {
-        orderRepository.placedOrder(order);
-        return "";
-
-    }
+//    @Override
+//    public String placeOrder(Order order) {
+//
+//        orderRepository.placeOrder(order);
+//        return "";
+//    }
 }
