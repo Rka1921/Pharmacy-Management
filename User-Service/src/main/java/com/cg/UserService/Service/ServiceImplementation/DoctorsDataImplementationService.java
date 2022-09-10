@@ -58,14 +58,14 @@ public class DoctorsDataImplementationService implements DoctorDataService {
                     doctorsData.getPhNo()
             );
         }
-        //update Experience
-        if (Objects.nonNull(doctorsData.getExp())
-                && !"".equalsIgnoreCase(
-                String.valueOf(doctorsData.getExp()))) {
-            dgDB.setExp(
-                    doctorsData.getExp()
-            );
-        }
+//        //update Experience
+//        if (Objects.nonNull(doctorsData.getExp())
+//                && !"".equalsIgnoreCase(
+//                String.valueOf(doctorsData.getExp()))) {
+//            dgDB.setExp(
+//                    doctorsData.getExp()
+//            );
+
         return  doctorRepository.save(dgDB);
     }
 
@@ -91,13 +91,13 @@ public class DoctorsDataImplementationService implements DoctorDataService {
             );
         }
         //update Experience
-        if(Objects.nonNull(doctorsData.getExp())
-                && !"".equalsIgnoreCase(
-                String.valueOf(doctorsData.getExp()))) {
-            dgDB.setExp(
-                    doctorsData.getExp()
-            );
-        }
+//        if(Objects.nonNull(doctorsData.getExp())
+//                && !"".equalsIgnoreCase(
+//                String.valueOf(doctorsData.getExp()))) {
+//            dgDB.setExp(
+//                    doctorsData.getExp()
+//            );
+//        }
         return  doctorRepository.save(dgDB);
     }
 

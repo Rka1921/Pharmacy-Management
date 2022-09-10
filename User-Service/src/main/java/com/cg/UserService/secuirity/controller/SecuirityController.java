@@ -11,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin
 @RestController
 public class SecuirityController {
     @Autowired
@@ -28,7 +28,7 @@ public class SecuirityController {
    public String firstPage() {
     return "Hello World";
 }
-    @RequestMapping(value="/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value="/auth/signin", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
         try {

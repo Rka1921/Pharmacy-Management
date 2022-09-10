@@ -2,6 +2,7 @@ package com.cg.OrderService.Controller;
 
 import com.cg.OrderService.Exception.NoOrderPresentException;
 import com.cg.OrderService.Exception.ResourceNotFoundException;
+import com.cg.OrderService.Model.DoctorsData;
 import com.cg.OrderService.Model.DrugsData;
 import com.cg.OrderService.Model.Order;
 import com.cg.OrderService.Service.OrderService;
@@ -27,7 +28,7 @@ public class OrderController {
 
     DrugsData drugsData = new DrugsData();
 
-//    DoctorsData doctorsData=new DoctorsData();
+    DoctorsData doctorsData=new DoctorsData();
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 
@@ -51,18 +52,21 @@ public class OrderController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveOrder(@RequestBody Order order) throws ResourceNotFoundException{
-
+       String doctorsData=order.getDoctorsData().getEmail();
         String drugname = order.getDrugname();
-        if(drugname == null){
-            throw new ResourceNotFoundException("No Drug Found with name "+drugname);
+        if(drugname == null||doctorsData==null){
+            throw new ResourceNotFoundException("No Drug Found with name "+drugname+"for mail"+doctorsData);
         }
         else {
             DrugsData drugsData = restTemplate.getForObject("http://Drugs-Info-Service/drugs/drugsname/" +
                     drugname, DrugsData.class);
+            DoctorsData doctorsData1=restTemplate.getForObject("http://User-Service/doctors/username/"+
+                    doctorsData,DoctorsData.class);
             double cost = drugsData.getDrugPrice() * order.getQuantity();
             order.setCost(cost);
             order.setId(sequenceGeneratorService.getSequenceNumber(Order.SEQUENCE_NAME));
-            String x = "Your order with order Id " + order.getId() + " with value " + cost + " is placed";
+            String x = "Your order with order Id " + order.getId() + " with value " + cost + " is placed"
+                    +order.getDoctorsData().getName();
             Order savedOrder = orderService.saveOrder(order);
             return ResponseEntity.ok(x);
         }
