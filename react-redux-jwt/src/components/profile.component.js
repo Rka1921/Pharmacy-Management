@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
+import Navbar from "./Navbar";
 
 class Profile extends Component {
 
@@ -14,9 +15,10 @@ class Profile extends Component {
     }
 
     return (
+      <div><Navbar/>
       <div class="card bg-light text-dark">
         <h1>{currentUser.username}</h1>
-        <p>
+        {/* <p>
           <strong>Id:</strong> {currentUser.id}
         </p>
         <p>
@@ -26,6 +28,8 @@ class Profile extends Component {
         <a href="#"><i class="fa fa-twitter"></i></a>
         <a href="#"><i class="fa fa-linkedin"></i></a>
         <a href="#"><i class="fa fa-facebook"></i></a>
+          */}
+          </div> 
           </div>
     );
   }

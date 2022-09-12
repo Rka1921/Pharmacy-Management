@@ -3,6 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { register } from "../actions/auth";
@@ -37,7 +38,7 @@ const name = (value) => {
   }
 };
 const phNo = (value) => {
-  if (value.length!=10) {
+  if (value.length!==10) {
     return (
       <div className="alert alert-danger" role="alert">
         The phone Numbder must of 10 digits.
@@ -143,7 +144,7 @@ class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="name">name</label>
+                  
                   <Input
                     type="text"
                     className="form-control"
@@ -151,11 +152,12 @@ class Register extends Component {
                     value={this.state.name}
                     onChange={this.onChangename}
                     validations={[required, name]}
+                    placeholder="Enter your name"
                   />
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="phNo">Mobile</label>
+                  
                   <Input
                     type="tel"
                     className="form-control"
@@ -163,12 +165,13 @@ class Register extends Component {
                     value={this.state.phNo}
                     onChange={this.onChangephNo}
                     validations={[required, phNo]}
+                    placeholder="Enter your Phone Number"
                   />
                 </div>
 
 
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
+                  
                   <Input
                     type="text"
                     className="form-control"
@@ -176,11 +179,12 @@ class Register extends Component {
                     value={this.state.email}
                     onChange={this.onChangeEmail}
                     validations={[required, email]}
+                    placeholder="Enter your Email"
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="doctor_password">Password</label>
+                  
                   <Input
                     type="doctor_password"
                     className="form-control"
@@ -188,12 +192,17 @@ class Register extends Component {
                     value={this.state.doctor_password}
                     onChange={this.onChangedoctor_password}
                     validations={[required, doctor_password]}
+                    placeholder="Enter your password"
                   />
                 </div>
 
                 <div className="form-group">
-                  <button className="btn btn-dark btn-block">Sign Up</button>
+                  <button className="btn btn-dark btn-block">Sign Up</button><h2></h2>
+                  <p><i><h6>Already Have an Account ? <Link to="/login" className="formFieldLink">
+                  Sign In
+            </Link></h6></i></p>
                 </div>
+                {/* <p className="mt-3">Already Have an Account <a href="login.components.js">Sign In</a></p> */}
               </div>
             )}
 
