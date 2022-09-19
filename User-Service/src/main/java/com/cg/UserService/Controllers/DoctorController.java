@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Optional;
 @CrossOrigin
 @RestController
@@ -70,15 +69,22 @@ public class DoctorController {
     @RequestMapping("/drugs/all")
     public DrugsData[] getAllDrugsData(){
         ResponseEntity<DrugsData[]> response =
-                restTemplate.getForEntity("http://Drugs-Info-Service/drugs/", DrugsData[].class);
+                restTemplate.getForEntity("http://Drugs-Info-Service/api/drugs/", DrugsData[].class);
         DrugsData[] drugsData = response.getBody();
         return (drugsData);
     }
     @GetMapping("/drugs/{drugsname}")
     public DrugsData getDrugsData (@PathVariable("drugsname") String drugsname){
 
-        return restTemplate.getForObject("http://Drugs-Info-Service/drugs/drugsname/" + drugsname, DrugsData.class);
+        return restTemplate.getForObject("http://Drugs-Info-Service/api/drugs/drugsname/" + drugsname, DrugsData.class);
+    }
+//    @RequestMapping("/drugs/")
+//    public double getDrugsData(){
+//        DrugsData response =
+//                restTemplate.getForObject("http://Drugs-Info-Service/drugs/", DrugsData.class);
+//        double drugsData = response.getDrugPrice();
+//        return (drugsData);
     }
 
 
-}
+

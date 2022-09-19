@@ -61,7 +61,7 @@ public class AdminController {
 
         DrugsData drugsData1 = new DrugsData(drugsData.getDrugId(),drugsData.getDrugName(), drugsData.getDrugPrice(), drugsData.getDrugQuantity(), drugsData.getExpiryDate());
         DrugsData response =
-                restTemplate.postForObject("http://drugs-info-service/drugs/save", drugsData1, DrugsData.class);
+                restTemplate.postForObject("http://drugs-info-service/api/drugs/save", drugsData1, DrugsData.class);
         return ResponseEntity.ok(response);
 
     }
@@ -70,7 +70,7 @@ public class AdminController {
     public String deleteDrugsData(@PathVariable("id") int drugId) throws  Exception{
 
         if(drugId != 0){
-            restTemplate.delete("http://drugs-info-service/drugs/delete/" + drugId);
+            restTemplate.delete("http://drugs-info-service/api/drugs/delete/" + drugId);
             return "Deleted Succesfully";
         }
         else {
@@ -83,7 +83,7 @@ public class AdminController {
     @GetMapping("/drugs/all")
     public DrugsData[] getAllDrugs() throws ResourceNotFoundException{
         ResponseEntity<DrugsData[]> response =
-                restTemplate.getForEntity("http://drugs-info-service/drugs/", DrugsData[].class);
+                restTemplate.getForEntity("http://drugs-info-service/api/drugs/", DrugsData[].class);
         DrugsData[] drugsData = response.getBody();
         return (drugsData);
     }
@@ -99,6 +99,11 @@ public class AdminController {
         ResponseEntity<DrugsData> response = restTemplate.exchange(request,DrugsData.class);
         DrugsData drugsData1=response.getBody();
         return drugsData1;
+    }
+    @GetMapping("/drugs/{id}")
+    public DrugsData getDrugsData (@PathVariable("id") int id){
+
+        return restTemplate.getForObject("http://Drugs-Info-Service/drugs/" + id, DrugsData.class);
     }
 
 }

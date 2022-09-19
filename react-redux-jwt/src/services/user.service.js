@@ -7,7 +7,6 @@ class UserService {
   getPublicContent() {
     return axios.get(API_URL + "hello");
   }
-
   // getGreetings() {
   //   return axios.get(API_URL + "greeting", { headers: authHeader() });
   // }

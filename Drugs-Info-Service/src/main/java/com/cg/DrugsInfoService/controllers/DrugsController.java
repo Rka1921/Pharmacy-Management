@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/drugs")
+@RequestMapping("/api/drugs")
+@CrossOrigin
 public class DrugsController {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
@@ -21,7 +22,7 @@ public class DrugsController {
     @Autowired
     DrugService drugService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<DrugsData>> getAllDrugsData() throws ResourceNotFoundException {
         List<DrugsData> list = drugService.getAllDrugsData();
         if (list.isEmpty()) {

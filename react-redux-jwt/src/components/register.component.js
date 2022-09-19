@@ -4,9 +4,12 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import { Link } from "react-router-dom";
+import Navbar_beforeLogin from "./Navbar_beforeLogin";
+import './login.css'
 
 import { connect } from "react-redux";
 import { register } from "../actions/auth";
+import { toBeDisabled } from "@testing-library/jest-dom";
 
 const required = (value) => {
   if (!value) {
@@ -38,7 +41,7 @@ const name = (value) => {
   }
 };
 const phNo = (value) => {
-  if (value.length!==10) {
+  if (value.length != 10) {
     return (
       <div className="alert alert-danger" role="alert">
         The phone Numbder must of 10 digits.
@@ -109,12 +112,22 @@ class Register extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       this.props
         .dispatch(
-          register(this.state.name, this.state.phNo, this.state.email, this.state.doctor_password)
+          register(
+            this.state.name,
+            this.state.phNo,
+            this.state.email,
+            this.state.doctor_password
+          )
         )
         .then(() => {
           this.setState({
             successful: true,
+            
           });
+         // history.push("/login");
+          alert("Registered successfully, Login to continue");
+          console.log("Registered successfully");
+          this.props.history.push("/login");
         })
         .catch(() => {
           this.setState({
@@ -128,100 +141,124 @@ class Register extends Component {
     const { message } = this.props;
 
     return (
+      <div>
+        <Navbar_beforeLogin />       
 
-      <div className="col-md-12">
-        <div className="card bg-light text-dark">
+        <Form
+          onSubmit={this.handleRegister}
+          ref={(c) => {
+            this.form = c;
+          }}
+        >
+         
+        <div className="container-fluid ps-md-0" style={{ marginTop: "50px", marginBottom:"50px" }}>         
+            
+            
+            
+      
+        
 
-          <h1><center>User Registration </center></h1>
+        <div className="col-md-6 bg-image" style={{ marginLeft: "30px" }}>
+          <div className="col-md-12 card bg-light text-dark" style={{ marginLeft: "650px" }} >
+            <h1>
+              <center>User Registration </center>
+            </h1>
 
+              {!this.state.successful && (
+                <div>
+                  <div className="form-group">
+                    <Input
+                      type="text"
+                      className="form-control"
+                      name="name"
+                      value={this.state.name}
+                      onChange={this.onChangename}
+                      validations={[required, name]}
+                      placeholder="Enter your name"
+                    />
+                  </div>
 
-          <Form
-            onSubmit={this.handleRegister}
-            ref={(c) => {
-              this.form = c;
-            }}
-          >
-            {!this.state.successful && (
-              <div>
+                  <div className="form-group">
+                    <Input
+                      type="tel"
+                      className="form-control"
+                      name="phNo"
+                      value={this.state.phNo}
+                      onChange={this.onChangephNo}
+                      validations={[required, phNo]}
+                      placeholder="Enter your Phone Number"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <Input
+                      type="text"
+                      className="form-control"
+                      name="email"
+                      value={this.state.email}
+                      onChange={this.onChangeEmail}
+                      validations={[required, email]}
+                      placeholder="Enter your Email"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <Input
+                      type="doctor_password"
+                      className="form-control"
+                      name="doctor_password"
+                      value={this.state.doctor_password}
+                      onChange={this.onChangedoctor_password}
+                      validations={[required, doctor_password]}
+                      placeholder="Enter your password"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <button className="btn btn-dark btn-block">Sign Up</button>
+                    <h2></h2>
+                    <p>
+                      <i>
+                        <h6>
+                          Already Have an Account ?{" "}
+                          <Link to="/login" className="formFieldLink">
+                            Sign In
+                          </Link>
+                        </h6>
+                      </i>
+                    </p>
+                  </div>
+                  {/* <p className="mt-3">Already Have an Account <a href="login.components.js">Sign In</a></p> */}
+                </div>
+              )}
+
+              {message && (
                 <div className="form-group">
-                  
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.onChangename}
-                    validations={[required, name]}
-                    placeholder="Enter your name"
-                  />
+                  <div
+                    className={
+                      this.state.successful
+                        ? "alert alert-success"
+                        : "alert alert-danger"
+                    }
+                    role="alert"
+                  >
+                    {message}
+                  </div>
                 </div>
-                
-                <div className="form-group">
-                  
-                  <Input
-                    type="tel"
-                    className="form-control"
-                    name="phNo"
-                    value={this.state.phNo}
-                    onChange={this.onChangephNo}
-                    validations={[required, phNo]}
-                    placeholder="Enter your Phone Number"
-                  />
-                </div>
-
-
-                <div className="form-group">
-                  
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChangeEmail}
-                    validations={[required, email]}
-                    placeholder="Enter your Email"
-                  />
-                </div>
-
-                <div className="form-group">
-                  
-                  <Input
-                    type="doctor_password"
-                    className="form-control"
-                    name="doctor_password"
-                    value={this.state.doctor_password}
-                    onChange={this.onChangedoctor_password}
-                    validations={[required, doctor_password]}
-                    placeholder="Enter your password"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <button className="btn btn-dark btn-block">Sign Up</button><h2></h2>
-                  <p><i><h6>Already Have an Account ? <Link to="/login" className="formFieldLink">
-                  Sign In
-            </Link></h6></i></p>
-                </div>
-                {/* <p className="mt-3">Already Have an Account <a href="login.components.js">Sign In</a></p> */}
-              </div>
-            )}
-
-            {message && (
-              <div className="form-group">
-                <div className={this.state.successful ? "alert alert-success" : "alert alert-danger"} role="alert">
-                  {message}
-                </div>
-              </div>
-            )}
-            <CheckButton
-              style={{ display: "none" }}
-              ref={(c) => {
-                this.checkBtn = c;
-              }}
-            />
-          </Form>
+              )}
+              <CheckButton
+                style={{ display: "none" }}
+                ref={(c) => {
+                  this.checkBtn = c;
+                }}
+              />
+            
+          </div>
         </div>
       </div>
+      </Form>
+      </div>
+
     );
   }
 }

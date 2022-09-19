@@ -21,10 +21,12 @@ public class Order {
     @Id
     private int id;
     private double cost;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private int quantity;
-    private DoctorsData doctorsData;
+    //    private DoctorsData doctorsData;
     private String drugname;
+    private String doctorname;
+    // private String doctoremail;
 }
