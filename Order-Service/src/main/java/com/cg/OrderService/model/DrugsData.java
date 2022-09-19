@@ -33,8 +33,8 @@ public class DrugsData {
    // @Column(name = "Drug_Quantity")
     private int drugQuantity;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
   //  @Column(name = "Exp_Date")
     private LocalDate expiryDate;
 
